@@ -19,4 +19,14 @@ allprojects {
 	group = 'com.example.bookingapp'
 	def hash = 'git rev-parse --short HEAD'.execute().text.trim()
 	version = "$projectVersion.$hash"
+
+
+}
+
+subprojects {
+	dependencies {
+		implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+		implementation "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+		implementation "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+	}
 }
