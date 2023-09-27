@@ -28,6 +28,7 @@ public class AuthenticationService {
         var user = User.builder()
                 .firstname(dto.getFirstname())
                 .lastname(dto.getLastname())
+                .email(dto.getEmail())
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
