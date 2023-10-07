@@ -4,6 +4,7 @@ package com.example.usermanagementms.controller;
 import com.example.usermanagementms.dto.auth.SignInResponseDto;
 import com.example.usermanagementms.dto.auth.SignInRequestDto;
 import com.example.usermanagementms.dto.auth.SignUpRequestDto;
+import com.example.usermanagementms.response.BaseResponse;
 import com.example.usermanagementms.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +20,17 @@ public class AuthenticationController {
     private final AuthenticationService authService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<SignInResponseDto> signUp(
+    public BaseResponse<SignInResponseDto> signUp(
             @RequestBody SignUpRequestDto dto
     ){
-        return ResponseEntity.ok(authService.signUp(dto));
+        return BaseResponse.success(authService.signUp(dto));
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<SignInResponseDto> signIn(
+    public BaseResponse<SignInResponseDto> signIn(
             @RequestBody SignInRequestDto dto
     ){
-        return ResponseEntity.ok(authService.signIn(dto));
+        return BaseResponse.success(authService.signIn(dto));
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.usermanagementms.config;
 
 
+import com.example.usermanagementms.domain.User;
+import com.example.usermanagementms.exception.BaseException;
 import com.example.usermanagementms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +25,7 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> BaseException.notFound(User.class.getSimpleName(), "username", username));
     }
 
     @Bean

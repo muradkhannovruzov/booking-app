@@ -24,9 +24,11 @@ allprojects {
 }
 
 subprojects {
-	dependencies {
-		implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
-		implementation "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
-		implementation "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+	if (javaProjects.contains(project)) {
+		dependencies {
+			implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+			implementation "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+			implementation "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+		}
 	}
 }

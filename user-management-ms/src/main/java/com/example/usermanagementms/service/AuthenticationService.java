@@ -44,6 +44,10 @@ public class AuthenticationService {
         return new SignInResponseDto(jwtToken);
     }
 
+    public boolean isPresentUsername(String username){
+        return userRepository.findByUsername(username).isPresent();
+    }
+
     public SignInResponseDto signIn(SignInRequestDto dto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
