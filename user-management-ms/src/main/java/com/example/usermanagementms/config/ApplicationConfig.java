@@ -26,7 +26,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        log.error("userDetailsService");
+        log.info("userDetailsService");
         return username -> userRepository.findByUsername(username)
                 .orElseThrow(() -> BaseException.notFound(User.class.getSimpleName(), "username", username));
     }

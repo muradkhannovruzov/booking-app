@@ -1,12 +1,12 @@
 package com.example.usermanagementms.service;
 
 import com.example.usermanagementms.config.JwtService;
+import com.example.usermanagementms.domain.Role;
 import com.example.usermanagementms.domain.User;
 import com.example.usermanagementms.dto.auth.SignInRequestDto;
 import com.example.usermanagementms.dto.auth.SignInResponseDto;
 import com.example.usermanagementms.dto.auth.SignUpRequestDto;
 import com.example.usermanagementms.exception.BaseException;
-import com.example.usermanagementms.repository.AuthorityRepository;
 import com.example.usermanagementms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -33,12 +32,9 @@ public class AuthenticationService {
                 .lastname(dto.getLastname())
                 .email(dto.getEmail())
                 .username(dto.getUsername())
+                .role(dto.getRole()) // todo: Can't create ADMIN (check role)
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
-
-        authorityRepository.findById(1L)
-                .ifPresent(userAuthority ->
-                        user.getAuthorities().add(userAuthority));
 
         userRepository.save(user);
 
@@ -52,7 +48,7 @@ public class AuthenticationService {
     }
 
     public SignInResponseDto signIn(SignInRequestDto dto) {
-        log.error("AuthenticationService -> signIn | " + dto);
+        log.info("AuthenticationService -> signIn | " + dto);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getUsername(),
