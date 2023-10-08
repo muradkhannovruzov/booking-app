@@ -1,4 +1,6 @@
 rootProject.name = 'booking-app'
 
 include 'common'
+
+include 'service-registry'
 include 'user-management-ms'

@@ -5,6 +5,11 @@ plugins {
 }
 
 def javaProjects = [
+		project(':service-registry'),
+		project(':user-management-ms')
+]
+
+def microservices = [
 		project(':user-management-ms')
 ]
 
@@ -24,7 +29,7 @@ allprojects {
 }
 
 subprojects {
-	if (javaProjects.contains(project)) {
+	if (microservices.contains(project)) {
 		dependencies {
 			implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
 			implementation "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"

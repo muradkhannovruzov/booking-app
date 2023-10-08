@@ -5,14 +5,17 @@ import com.example.usermanagementms.domain.User;
 import com.example.usermanagementms.dto.auth.SignInRequestDto;
 import com.example.usermanagementms.dto.auth.SignInResponseDto;
 import com.example.usermanagementms.dto.auth.SignUpRequestDto;
+import com.example.usermanagementms.exception.BaseException;
 import com.example.usermanagementms.repository.AuthorityRepository;
 import com.example.usermanagementms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -49,6 +52,7 @@ public class AuthenticationService {
     }
 
     public SignInResponseDto signIn(SignInRequestDto dto) {
+        log.error("AuthenticationService -> signIn | " + dto);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getUsername(),
@@ -57,7 +61,8 @@ public class AuthenticationService {
         );
 
         var user = userRepository.findByUsername(dto.getUsername())
-                .orElseThrow();
+                .orElseThrow(() ->
+                        BaseException.notFound(User.class.getSimpleName(), "username", dto.getUsername()));
 
         var jwtToken = jwtService.generateToken(user);
 

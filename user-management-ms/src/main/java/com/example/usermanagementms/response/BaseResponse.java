@@ -38,8 +38,8 @@ public class BaseResponse <T> {
                     .build();
         }
 
-        public static Meta of(ResponseMessage responseMessage) {
-            return of(responseMessage.key(), responseMessage.message());
+        public static Meta of(ResponseMessage responseMessages) {
+            return of(responseMessages.key(), responseMessages.message());
         }
 
         public static Meta of(BaseException ex) {
