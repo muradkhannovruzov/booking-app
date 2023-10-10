@@ -27,6 +27,7 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
 
 	implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:$eurekaClientVersion"
+	implementation "org.springframework.kafka:spring-kafka:$kafkaVersion"
 
 	compileOnly "org.projectlombok:lombok:$lombokVersion"
 	runtimeOnly "com.mysql:mysql-connector-j:$mysqlVersion"
