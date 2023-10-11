@@ -34,8 +34,6 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
     depends_on:
       - "zookeeper"
-
-
 volumes:
   mysql_data:
 
