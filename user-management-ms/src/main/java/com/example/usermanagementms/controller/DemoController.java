@@ -13,4 +13,9 @@ public class DemoController {
     public BaseResponse<String> sayHello() {
         return BaseResponse.success("demo-controller");
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("test");
+    }
 }

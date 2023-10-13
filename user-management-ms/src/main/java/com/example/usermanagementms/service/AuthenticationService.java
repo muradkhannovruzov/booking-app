@@ -8,6 +8,7 @@ import com.example.usermanagementms.dto.auth.SignInResponseDto;
 import com.example.usermanagementms.dto.auth.SignUpRequestDto;
 import com.example.usermanagementms.exception.BaseException;
 import com.example.usermanagementms.repository.UserRepository;
+import com.example.usermanagementms.utils.OTPUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
