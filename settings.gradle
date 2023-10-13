@@ -2,4 +2,4 @@ rootProject.name = 'booking-app'
 
 include 'service-registry' //8761
 include 'user-management-ms' //8081
-include 'phone-confirmation-ms' //8081
+include 'notifications-ms' //8081

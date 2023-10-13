@@ -7,12 +7,12 @@ plugins {
 def javaProjects = [
 		project(':service-registry'),
 		project(':user-management-ms'),
-		project(':phone-confirmation-ms')
+		project(':notifications-ms')
 ]
 
 def microservices = [
 		project(':user-management-ms'),
-		project(':phone-confirmation-ms')
+		project(':notifications-ms')
 ]
 
 allprojects {
