@@ -65,4 +65,18 @@ public class AuthenticationService {
 
         return new SignInResponseDto(jwtToken);
     }
+
+    public User getUserFromToken(String token) {
+
+        Long userId = jwtService.extractClaim
+                (token, claims -> claims.get("userId", Long.class));
+
+        return userRepository.findById(userId)
+                .orElseThrow(
+                        () -> BaseException.notFound(
+                                User.class.getSimpleName(),
+                                "userId",
+                                userId.toString()));
+    }
+
 }

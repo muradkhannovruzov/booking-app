@@ -4,7 +4,6 @@ import com.example.usermanagementms.domain.enums.VerificationType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenerationTime;
 
 import java.time.LocalDateTime;
 
@@ -14,8 +13,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = VerificationOTP.TABLE_NAME)
-public class VerificationOTP {
+@Table(name = VerificationOtp.TABLE_NAME)
+public class VerificationOtp {
 
     public static final String TABLE_NAME = "verification_otp";
 

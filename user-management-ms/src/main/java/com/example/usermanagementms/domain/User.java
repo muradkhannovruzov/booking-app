@@ -47,13 +47,13 @@ public class User implements UserDetails {
     }
 
     @OneToOne(mappedBy = "user", optional = false)
-    private VerificationOTP verificationOTP;
+    private VerificationOtp verificationOTP;
 
-    public VerificationOTP getVerificationOTP() {
+    public VerificationOtp getVerificationOTP() {
         return verificationOTP;
     }
 
-    public void setVerificationOTP(VerificationOTP verificationOTP) {
+    public void setVerificationOTP(VerificationOtp verificationOTP) {
         this.verificationOTP = verificationOTP;
     }
 }
