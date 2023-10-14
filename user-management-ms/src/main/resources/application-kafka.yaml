@@ -1,7 +1,8 @@
 spring:
   kafka:
     topics:
-      registration: "user-management-registration-topic"
+      sms-otp: "notification-sms-otp-request"
+      email-otp: "notification-email-otp-request"
     producer:
       bootstrap-servers: ${KAFKA_HOST_NAME:localhost}:9092
       key-serializer: org.apache.kafka.common.serialization.LongSerializer

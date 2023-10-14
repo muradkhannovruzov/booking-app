@@ -28,10 +28,10 @@ public class AuthenticationService {
 
 
     public SignInResponseDto signUp(SignUpRequestDto dto) {
-        var user = User.builder()
+        var user = User.builder() // todo : user modelMapper or custom mapper
                 .firstname(dto.getFirstname())
                 .lastname(dto.getLastname())
-                .email(dto.getEmail())
+                .phone(dto.getPhone())
                 .username(dto.getUsername())
                 .role(dto.getRole()) // todo: Can't create ADMIN (check role)
                 .password(passwordEncoder.encode(dto.getPassword()))

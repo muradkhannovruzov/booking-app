@@ -1,14 +1,13 @@
 package com.example.usermanagementms.domain;
 
 
+import com.example.usermanagementms.domain.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Entity
@@ -45,5 +44,16 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
+    }
+
+    @OneToOne(mappedBy = "user", optional = false)
+    private VerificationOTP verificationOTP;
+
+    public VerificationOTP getVerificationOTP() {
+        return verificationOTP;
+    }
+
+    public void setVerificationOTP(VerificationOTP verificationOTP) {
+        this.verificationOTP = verificationOTP;
     }
 }

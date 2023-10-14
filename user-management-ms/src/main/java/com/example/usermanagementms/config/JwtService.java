@@ -1,5 +1,6 @@
 package com.example.usermanagementms.config;
 
+import com.example.usermanagementms.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,7 +31,13 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+
+        // sonradan elave edilib
+        User user = (User) userDetails;
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());
+
+        return generateToken(claims, userDetails);
     }
 
     public String generateToken(
