@@ -40,20 +40,9 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired;
     private boolean enabled;
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
     }
 
-    @OneToOne(mappedBy = "user", optional = false)
-    private VerificationOtp verificationOTP;
-
-    public VerificationOtp getVerificationOTP() {
-        return verificationOTP;
-    }
-
-    public void setVerificationOTP(VerificationOtp verificationOTP) {
-        this.verificationOTP = verificationOTP;
-    }
 }
