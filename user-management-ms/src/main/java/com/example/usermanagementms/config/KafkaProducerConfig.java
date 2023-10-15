@@ -1,8 +1,6 @@
 package com.example.usermanagementms.config;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.LongSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -26,6 +24,12 @@ public class KafkaProducerConfig { // todo: Add to 'common'
 
     @Value("${spring.kafka.producer.properties.delivery.timeout.ms}")
     private String deliveryTimeout;
+
+    @Value("${spring.kafka.producer.key-serializer}")
+    private String keySerializer;
+
+    @Value("${spring.kafka.producer.value-serializer}")
+    private String valueSerializer;
 
     @Bean
     Map<String, Object> producerConfigs() {
@@ -52,12 +56,28 @@ public class KafkaProducerConfig { // todo: Add to 'common'
     public ProducerFactory<Long, Object> userProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
         configProps.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, deliveryTimeout);
         configProps.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, retry);
         configProps.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, maxBlock);
         return new DefaultKafkaProducerFactory<>(configProps);
+
+
+        /*
+        Info:
+        Serializer ve Deserializer'lar bu formadada yazila biler:
+
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Class.forName(keySerializer));
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, Class.forName(valueSerializer));
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+
+        Belə olduqda classlari app ise dusen yazamn axtaririr. Əgər tapa bilməsə ClassNotFound exceptionu atir.
+        Sadəcə ad ilə verildikdə isə xeta ancaq kafka istifadə edilən zaman atilir
+
+        */
     }
 
     @Bean

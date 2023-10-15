@@ -31,10 +31,9 @@ public class VerificationOtp {
     @Enumerated(EnumType.STRING)
     private VerificationType verficationType;
 
-    @OneToOne
+    @ManyToOne
     @JsonIgnore
     @ToString.Exclude
-    @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
     private User user;
 }

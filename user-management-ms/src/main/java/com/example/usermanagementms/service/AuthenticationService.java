@@ -1,14 +1,12 @@
 package com.example.usermanagementms.service;
 
 import com.example.usermanagementms.config.JwtService;
-import com.example.usermanagementms.domain.Role;
 import com.example.usermanagementms.domain.User;
 import com.example.usermanagementms.dto.auth.SignInRequestDto;
 import com.example.usermanagementms.dto.auth.SignInResponseDto;
 import com.example.usermanagementms.dto.auth.SignUpRequestDto;
 import com.example.usermanagementms.exception.BaseException;
 import com.example.usermanagementms.repository.UserRepository;
-import com.example.usermanagementms.utils.OTPUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

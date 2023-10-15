@@ -5,7 +5,7 @@ import com.example.usermanagementms.domain.VerificationOtp;
 import com.example.usermanagementms.domain.enums.VerificationType;
 import com.example.usermanagementms.repository.VerificationOTPRepository;
 import com.example.usermanagementms.service.VerificationOtpService;
-import com.example.usermanagementms.utils.OTPUtils;
+import com.example.usermanagementms.utils.OtpUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class VerificationOtpServiceImpl implements VerificationOtpService {
 
     @Override
     public VerificationOtp createForUser(User user, VerificationType verificationType) {
-        String otpCode = OTPUtils.generate();
+        String otpCode = OtpUtil.generate();
         LocalDateTime expiryDate = LocalDateTime.now().plusNanos(otpExpiration);
         VerificationOtp otp = new VerificationOtp();
         otp.setOtp(otpCode);
