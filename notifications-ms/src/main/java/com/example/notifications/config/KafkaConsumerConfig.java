@@ -13,6 +13,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +68,19 @@ public class KafkaConsumerConfig {
         factory.setReplyTemplate(kafkaTemplate);
         factory.setRecordFilterStrategy(record -> record.value().contains(IGNORED));
 
+        return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaJsonListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+
+        // todo: check these two methods difference
+        factory.setRecordMessageConverter( new StringJsonMessageConverter());
+        factory.setRecordMessageConverter(new StringJsonMessageConverter());
+//        factory.setMessageConverter(new StringJsonMessageConverter()); is deprecated in spring-kafka 2.7.1
         return factory;
     }
 }

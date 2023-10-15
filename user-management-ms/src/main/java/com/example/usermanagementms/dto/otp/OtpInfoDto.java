@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendOtpDto {
+public class OtpInfoDto {
     private String target;
     private String otp;
 }

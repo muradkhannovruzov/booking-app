@@ -2,7 +2,7 @@ package com.example.usermanagementms.service.impl;
 
 import com.example.usermanagementms.domain.User;
 import com.example.usermanagementms.domain.enums.VerificationType;
-import com.example.usermanagementms.dto.otp.SendOtpDto;
+import com.example.usermanagementms.dto.otp.OtpInfoDto;
 import com.example.usermanagementms.service.KafkaMsgPublisher;
 import com.example.usermanagementms.service.OtpPublisherService;
 import com.example.usermanagementms.service.VerificationOtpService;
@@ -28,7 +28,7 @@ public class OtpPublisherServiceImpl implements OtpPublisherService {
     public void publishPhoneOtp(User user) {
         var verificationOtp = otpService.createForUser(user, VerificationType.PHONE);
 
-        SendOtpDto otpDto = new SendOtpDto();
+        OtpInfoDto otpDto = new OtpInfoDto();
         otpDto.setTarget(user.getPhone());
         otpDto.setOtp(verificationOtp.getOtp());
 
@@ -39,7 +39,7 @@ public class OtpPublisherServiceImpl implements OtpPublisherService {
     public void publishEmailOtp(User user) {
         var verificationOtp = otpService.createForUser(user, VerificationType.EMAIL);
 
-        SendOtpDto otpDto = new SendOtpDto();
+        OtpInfoDto otpDto = new OtpInfoDto();
         otpDto.setTarget(user.getEmail());
         otpDto.setOtp(verificationOtp.getOtp());
 

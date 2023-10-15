@@ -32,7 +32,7 @@ public class KafkaProducerConfig { // todo: Add to 'common'
     private String valueSerializer;
 
     @Bean
-    Map<String, Object> producerConfigs() {
+    public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, retry);
@@ -41,12 +41,12 @@ public class KafkaProducerConfig { // todo: Add to 'common'
     }
 
     @Bean
-    ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<String, String> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    KafkaTemplate<String, String> kafkaTemplate() {
+    public KafkaTemplate<String, String> kafkaTemplate() {
         KafkaTemplate<String, String> kafkaTemplate = new KafkaTemplate<>(producerFactory());
         kafkaTemplate.setMessageConverter(new StringJsonMessageConverter());
         return kafkaTemplate;
