@@ -23,11 +23,11 @@ public class UserManagementMsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(Role.PROVIDER.getAuthorities());
-		User user = userRepository.findByUsername("muradxan").get();
-		otpPublisherService.publishPhoneOtp(user);
-		otpPublisherService.publishPhoneOtp(user);
-		otpPublisherService.publishPhoneOtp(user);
-		otpPublisherService.publishPhoneOtp(user);
+//		System.out.println(Role.PROVIDER.getAuthorities());
+//		User user = userRepository.findByUsername("muradxan").get();
+//		otpPublisherService.publishPhoneOtp(user);
+//		otpPublisherService.publishPhoneOtp(user);
+//		otpPublisherService.publishPhoneOtp(user);
+//		otpPublisherService.publishPhoneOtp(user);
 	}
 }
