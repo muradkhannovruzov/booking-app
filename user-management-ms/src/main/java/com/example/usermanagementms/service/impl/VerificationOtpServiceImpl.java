@@ -32,4 +32,18 @@ public class VerificationOtpServiceImpl implements VerificationOtpService {
 
         return otpRepository.save(otp);
     }
+
+    @Override
+    public VerificationOtp getLatestOtpByUserIdAndType(Long userId, VerificationType verificationType) {
+        return otpRepository.findFirstByUserIdAndVerficationTypeOrderByCreatedDateDesc(userId, verificationType)
+                .orElseThrow(() -> new RuntimeException("No OTP found for user"));
+
+    }
+
+    @Override
+    public boolean isOtpExpired(VerificationOtp otp) {
+        return otp.getExpiryDate().isBefore(LocalDateTime.now());
+    }
+
+
 }

@@ -6,4 +6,8 @@ import com.example.usermanagementms.domain.enums.VerificationType;
 
 public interface VerificationOtpService {
     VerificationOtp createForUser(User user, VerificationType verificationType);
+
+    VerificationOtp getLatestOtpByUserIdAndType(Long userId, VerificationType verificationType);
+
+    boolean isOtpExpired(VerificationOtp otp);
 }
