@@ -26,15 +26,15 @@ public class UserConfirmationServiceWithOtp implements UserConfirmationService {
                 verificationOtpService.getLatestOtpByUserIdAndType(user.getId(), VerificationType.PHONE);
 
         if (isOtpExpired(verificationOtp)) {
-            return buildResponse(false, "OTP is expired");
+            return buildConfirmResponse(false, "OTP is expired");
         }
 
         if (isOtpCorrect(verificationOtp, requestDto)) {
             activateUser(user);
-            return buildResponse(true, "Phone number is verified");
+            return buildConfirmResponse(true, "Phone number is verified");
         }
 
-        return buildResponse(false, "OTP is not correct");
+        return buildConfirmResponse(false, "OTP is not correct");
     }
 
     @Override
@@ -43,15 +43,15 @@ public class UserConfirmationServiceWithOtp implements UserConfirmationService {
                 verificationOtpService.getLatestOtpByUserIdAndType(user.getId(), VerificationType.EMAIL);
 
         if (isOtpExpired(verificationOtp)) {
-            return buildResponse(false, "OTP is expired");
+            return buildConfirmResponse(false, "OTP is expired");
         }
 
         if (isOtpCorrect(verificationOtp, requestDto)) {
             activateUser(user);
-            return buildResponse(true, "Email is verified");
+            return buildConfirmResponse(true, "Email is verified");
         }
 
-        return buildResponse(false, "OTP is not correct");
+        return buildConfirmResponse(false, "OTP is not correct");
     }
 
 
@@ -69,7 +69,7 @@ public class UserConfirmationServiceWithOtp implements UserConfirmationService {
         userRepository.save(user);
     }
 
-    private ConfirmResponseDto buildResponse(boolean isCorrect, String message) {
+    private ConfirmResponseDto buildConfirmResponse(boolean isCorrect, String message) {
         return ConfirmResponseDto.builder()
                 .isCorrect(isCorrect)
                 .message(message)
