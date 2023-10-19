@@ -18,9 +18,12 @@ public class NotFoundExceptionType {
     private Map<String, Object>fields;
 
     public static NotFoundExceptionType of(String target, Map<String, Object> fields) {
-        return NotFoundExceptionType.builder()
+
+        NotFoundExceptionType exceptionType = NotFoundExceptionType.builder()
                 .fields(fields)
                 .target(target)
                 .build();
+        System.out.println("exceptionType: " + exceptionType);
+        return exceptionType;
     }
 }

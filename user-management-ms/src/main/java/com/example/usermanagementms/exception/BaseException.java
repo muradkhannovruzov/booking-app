@@ -1,6 +1,7 @@
 package com.example.usermanagementms.exception;
 
 
+import com.example.usermanagementms.enums.response.ErrorResponseMessages;
 import com.example.usermanagementms.enums.response.ResponseMessage;
 import com.example.usermanagementms.exception.type.NotFoundExceptionType;
 import lombok.*;
@@ -35,12 +36,14 @@ public class BaseException extends RuntimeException {
     }
 
     public static BaseException notFound(String target, String field, String value) {
-        return BaseException.builder()
+        BaseException baseException = BaseException.builder()
                 .responseMessage(NOT_FOUND)
                 .notFoundData(
                         NotFoundExceptionType.of(target, Map.of(field, value))
                 )
                 .build();
+
+        return baseException;
     }
 
 }

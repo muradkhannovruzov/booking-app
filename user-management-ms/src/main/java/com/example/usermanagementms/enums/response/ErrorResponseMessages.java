@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorResponseMessages implements ResponseMessage {
     UNEXPECTED("unexpected", "Unexpected error", HttpStatus.INTERNAL_SERVER_ERROR),
     NOT_FOUND("not_found_%s", "%s can't find %s", HttpStatus.NOT_FOUND),
+    USER_IS_NOT_ENABLED("user_is_not_enabled", "User is not enabled", HttpStatus.NOT_FOUND),
     EMAIL_ALREADY_REGISTERED("email_already_registered", "Email already registered", HttpStatus.CONFLICT),
     PHONE_NUMBER_ALREADY_EXIST("phone_number_already_exist", "Phone number already exist", HttpStatus.CONFLICT),
     FORBIDDEN("forbidden","Forbidden", HttpStatus.FORBIDDEN),
@@ -18,16 +19,16 @@ public enum ErrorResponseMessages implements ResponseMessage {
     private final HttpStatus status;
     @Override
     public String key() {
-        return null;
+        return key;
     }
 
     @Override
     public String message() {
-        return null;
+        return message;
     }
 
     @Override
     public HttpStatus status() {
-        return null;
+        return status;
     }
 }
