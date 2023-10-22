@@ -21,6 +21,8 @@ repositories {
 }
 
 dependencies {
+    implementation project(path: ':user-management-ms')
+
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:$eurekaClientVersion"
