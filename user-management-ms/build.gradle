@@ -7,7 +7,7 @@ plugins {
 group = 'com.example.user.management'
 
 java {
-	sourceCompatibility = "$jdkVersion"
+	sourceCompatibility = jdkVersion
 }
 
 configurations {
