@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version "${springDependecyManagementVersion}"
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version "$springDependecyManagementVersion"
 }
 
 group = 'com.example.producer'
@@ -21,19 +21,22 @@ repositories {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${springCloudVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:$eurekaClientVersion"
+    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+
     implementation "org.modelmapper:modelmapper:$modelMapperVersion"
 
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    runtimeOnly "org.postgresql:postgresql:$postgresqlVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
     }
 }
 
