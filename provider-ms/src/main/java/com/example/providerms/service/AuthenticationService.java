@@ -8,11 +8,9 @@ import com.example.providerms.dto.auth.SignUpRequestDto;
 import com.example.providerms.exception.BaseException;
 import com.example.providerms.repository.ProviderRepository;
 import com.example.providerms.response.enums.ErrorResponseMessages;
-import com.example.providerms.response.enums.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,7 +39,8 @@ public class AuthenticationService {
     }
 
     public boolean isPresentUsername(String username){
-        return providerRepository.findByUsername(username).isPresent();
+        return providerRepository.findByUsernameAndEnabledIsTrue(username)
+                .isPresent();
     }
 
     public boolean isPresentPhone(String phone){
@@ -54,6 +53,16 @@ public class AuthenticationService {
 
     public SignInResponseDto signIn(SignInRequestDto dto) {
         log.info("AuthenticationService -> signIn | " + dto);
+
+        var provider = providerRepository.findByUsernameAndEnabledIsTrue
+                        (dto.getUsername()).orElseThrow(() ->
+                        BaseException.notFound
+                                (Provider.class.getSimpleName(),
+                                        "username",
+                                        dto.getUsername()));
+
+        checkIfAccountActive(provider);
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getUsername(),
@@ -61,11 +70,7 @@ public class AuthenticationService {
                 )
         );
 
-        var user = providerRepository.findByUsername(dto.getUsername())
-                .orElseThrow(() ->
-                        BaseException.notFound(Provider.class.getSimpleName(), "username", dto.getUsername()));
-
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(provider);
 
         return new SignInResponseDto(jwtToken);
     }
@@ -102,6 +107,15 @@ public class AuthenticationService {
         }
         if (isPresentEmail(dto.getEmail())) {
             throw BaseException.of(ErrorResponseMessages.EMAIL_ALREADY_REGISTERED);
+        }
+    }
+
+    private void checkIfAccountActive(Provider provider) {
+        if (!provider.isEnabled()
+                || !provider.isAccountNonLocked()
+                || !provider.isAccountNonExpired()
+                || !provider.isCredentialsNonExpired()) {
+            throw BaseException.of(ErrorResponseMessages.USER_NOT_ACTIVE);
         }
     }
 

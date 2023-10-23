@@ -42,7 +42,7 @@ public class VerificationOtpServiceImpl implements VerificationOtpService {
 
     @Override
     public boolean isOtpExpired(VerificationOtp otp) {
-        return otp.getExpiryDate().isBefore(LocalDateTime.now());
+        return otp.getExpiryDate().isAfter(LocalDateTime.now());
     }
 
 

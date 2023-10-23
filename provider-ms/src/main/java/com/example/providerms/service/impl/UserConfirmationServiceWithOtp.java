@@ -66,6 +66,9 @@ public class UserConfirmationServiceWithOtp implements UserConfirmationService {
 
     private void activateProvider(Provider user) {
         user.setEnabled(true);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
         providerRepository.save(user);
     }
 

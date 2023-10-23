@@ -31,7 +31,6 @@ dependencies {
     implementation "org.springframework.kafka:spring-kafka:$kafkaVersion"
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
-    compileOnly "org.mapstruct:mapstruct"
     runtimeOnly "org.postgresql:postgresql:$postgresqlVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
