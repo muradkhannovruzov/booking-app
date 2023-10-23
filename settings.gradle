@@ -4,4 +4,5 @@ include 'service-registry' //8761
 
 include 'user-management-ms' //8080
 include 'provider-ms' //8081
-include 'notifications-ms' //8082
+include 'customer-ms' //8082
+include 'notifications-ms' //8085

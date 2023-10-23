@@ -7,8 +7,7 @@ import lombok.*;
 
 import java.util.Map;
 
-import static com.example.providerms.response.enums.ErrorResponseMessages.NOT_FOUND;
-import static com.example.providerms.response.enums.ErrorResponseMessages.UNEXPECTED;
+import static com.example.providerms.response.enums.ErrorResponseMessages.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -19,6 +18,8 @@ public class BaseException extends RuntimeException {
 
     private ResponseMessage responseMessage;
     private NotFoundExceptionType notFoundData;
+
+
 
     // todo: fix. it doesn't return dynamic error message
     @Override

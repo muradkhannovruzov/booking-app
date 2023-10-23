@@ -4,7 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version "$springDependecyManagementVersion"
 }
 
-group = 'com.example.providerms'
+group = 'com.example.customerms'
 
 java {
     sourceCompatibility = jdkVersion
@@ -26,12 +26,10 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.modelmapper:modelmapper:$modelMapperVersion"
 
-
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:$eurekaClientVersion"
     implementation "org.springframework.kafka:spring-kafka:$kafkaVersion"
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
-    compileOnly "org.mapstruct:mapstruct"
     runtimeOnly "org.postgresql:postgresql:$postgresqlVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
@@ -40,7 +38,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
 

@@ -7,8 +7,12 @@ import com.example.providerms.dto.auth.SignInResponseDto;
 import com.example.providerms.dto.auth.SignUpRequestDto;
 import com.example.providerms.exception.BaseException;
 import com.example.providerms.repository.ProviderRepository;
+import com.example.providerms.response.enums.ErrorResponseMessages;
+import com.example.providerms.response.enums.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,26 +27,29 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ModelMapper modelMapper;
 
 
     public SignInResponseDto signUp(SignUpRequestDto dto) {
-        var user = Provider.builder() // todo : user modelMapper or custom mapper
-                .firstname(dto.getFirstname())
-                .lastname(dto.getLastname())
-                .phone(dto.getPhone())
-                .username(dto.getUsername())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .build();
+        checkForExistingCredentials(dto);
 
-        providerRepository.save(user);
+        var provider = createProviderEntityObject(dto);
+        providerRepository.save(provider);
 
-        var jwtToken = jwtService.generateToken(user);
-
+        var jwtToken = jwtService.generateToken(provider);
         return new SignInResponseDto(jwtToken);
     }
 
     public boolean isPresentUsername(String username){
         return providerRepository.findByUsername(username).isPresent();
+    }
+
+    public boolean isPresentPhone(String phone){
+        return providerRepository.existsByPhoneAndEnabledIsTrue(phone);
+    }
+
+    public boolean isPresentEmail(String email){
+        return providerRepository.existsByEmailAndEnabledIsTrue(email);
     }
 
     public SignInResponseDto signIn(SignInRequestDto dto) {
@@ -74,6 +81,28 @@ public class AuthenticationService {
                                 Provider.class.getSimpleName(),
                                 "userId",
                                 userId.toString()));
+    }
+
+    private Provider createProviderEntityObject(SignUpRequestDto signUpDto) {
+        Provider provider = modelMapper.map(signUpDto, Provider.class);
+        provider.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        provider.setAccountNonExpired(false);
+        provider.setAccountNonLocked(false);
+        provider.setCredentialsNonExpired(false);
+        provider.setEnabled(false);
+        return provider;
+    }
+
+    private void checkForExistingCredentials(SignUpRequestDto dto) {
+        if (isPresentUsername(dto.getUsername())) {
+            throw BaseException.of(ErrorResponseMessages.USERNAME_ALREADY_EXIST);
+        }
+        if (isPresentPhone(dto.getPhone())) {
+            throw BaseException.of(ErrorResponseMessages.PHONE_NUMBER_ALREADY_EXIST);
+        }
+        if (isPresentEmail(dto.getEmail())) {
+            throw BaseException.of(ErrorResponseMessages.EMAIL_ALREADY_REGISTERED);
+        }
     }
 
 }

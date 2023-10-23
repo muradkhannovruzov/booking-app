@@ -36,7 +36,7 @@ public class Provider implements UserDetails {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.PROVIDER;
 
     private boolean accountNonExpired;
     private boolean accountNonLocked;
