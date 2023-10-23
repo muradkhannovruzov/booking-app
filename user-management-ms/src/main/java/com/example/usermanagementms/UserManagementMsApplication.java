@@ -1,7 +1,5 @@
 package com.example.usermanagementms;
 
-import com.example.usermanagementms.domain.Role;
-import com.example.usermanagementms.domain.User;
 import com.example.usermanagementms.repository.UserRepository;
 import com.example.usermanagementms.service.OtpPublisherService;
 import lombok.RequiredArgsConstructor;

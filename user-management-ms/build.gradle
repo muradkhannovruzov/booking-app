@@ -7,7 +7,7 @@ plugins {
 group = 'com.example.user.management'
 
 java {
-	sourceCompatibility = "$jdkVersion"
+	sourceCompatibility = jdkVersion
 }
 
 configurations {
@@ -38,7 +38,7 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
 	}
 }
 

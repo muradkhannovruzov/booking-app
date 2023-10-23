@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 public enum SuccessResponseMessage implements ResponseMessage {
-    SUCCESS("success", "Successfully", HttpStatus.OK);
+    SUCCESS("success", "Successfully", HttpStatus.OK),
+    CREATED("created","Successfully created",HttpStatus.CREATED);
 
 
     private final String key;
