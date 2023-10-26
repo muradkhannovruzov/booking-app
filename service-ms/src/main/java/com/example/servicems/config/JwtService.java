@@ -32,10 +32,7 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
 
         // sonradan elave edilib
-//        Provider provider = (Provider) userDetails;
         Map<String, Object> claims = new HashMap<>();
-//        claims.put("id", provider.getId());
-//        claims.put("role", provider.getRole());
 
         return generateToken(claims, userDetails);
     }
@@ -79,7 +76,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
