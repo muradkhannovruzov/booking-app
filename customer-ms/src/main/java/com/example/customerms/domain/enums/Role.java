@@ -1,4 +1,4 @@
-package com.example.providerms.domain;
+package com.example.customerms.domain.enums;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

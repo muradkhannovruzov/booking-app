@@ -1,8 +1,9 @@
-package com.example.providerms.domain;
+package com.example.customerms.domain;
 
 
-import com.example.providerms.domain.enums.Gender;
-import com.example.providerms.domain.enums.Role;
+
+import com.example.customerms.domain.enums.Gender;
+import com.example.customerms.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Provider implements UserDetails {
+public class Customer implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,7 +38,7 @@ public class Provider implements UserDetails {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.PROVIDER;
+    private Role role = Role.CUSTOMER;
 
     private boolean accountNonExpired;
     private boolean accountNonLocked;

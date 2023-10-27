@@ -77,4 +77,15 @@ public class ServiceCatalogService {
             throw BaseException.of(FORBIDDEN);
         }
     }
+
+    public Page<ServiceCatalogResDto> getAll(Pageable pageable) {
+        return serviceRepository.findAll(pageable)
+                .map(serviceCatalog -> mapper.map(serviceCatalog, ServiceCatalogResDto.class));
+    }
+
+    public ServiceCatalogResDto get(Long id) {
+        return mapper.map(serviceRepository.findById(id)
+                .orElseThrow(() -> BaseException.notFound(ServiceCatalog.class.getSimpleName(), "id", id.toString())),
+                ServiceCatalogResDto.class);
+    }
 }

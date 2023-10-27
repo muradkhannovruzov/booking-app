@@ -26,6 +26,16 @@ public class ServiceCatalogController {
         return "Hello from service-ms";
     }
 
+    @GetMapping("/{id}")
+    public BaseResponse<ServiceCatalogResDto> getOne(@PathVariable Long id) {
+        return BaseResponse.success(serviceCatalogService.get(id));
+    }
+
+    @GetMapping("list")
+    public BaseResponse<Page<ServiceCatalogResDto>> getAll(Pageable pageable) {
+        return BaseResponse.success(serviceCatalogService.getAll(pageable));
+    }
+
     @GetMapping("for-provider")
     public BaseResponse<Page<ServiceCatalogResDto>> getAllForProvider
             (@RequestHeader("Authorization") String token,
