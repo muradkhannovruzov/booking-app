@@ -1,7 +1,6 @@
 package com.example.customerms.controller;
 
 import com.example.customerms.domain.Customer;
-import com.example.customerms.domain.Provider;
 import com.example.customerms.dto.verification.ConfirmRequestDto;
 import com.example.customerms.dto.verification.ConfirmResponseDto;
 import com.example.customerms.response.BaseResponse;
