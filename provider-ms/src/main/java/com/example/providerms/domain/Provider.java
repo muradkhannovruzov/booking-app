@@ -41,8 +41,8 @@ public class Provider implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role = Role.PROVIDER;
 
-//    @OneToMany(mappedBy = "producer", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<WorkSchedule> workSchedules = new HashSet<>();
+    @OneToMany(mappedBy = "provider")
+    private Set<WorkSchedule> workSchedules = new HashSet<>();
 
 
     private boolean accountNonExpired;

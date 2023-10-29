@@ -22,9 +22,9 @@ public class WorkSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "producer_id")
-//    private Producer producer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
@@ -35,6 +35,6 @@ public class WorkSchedule {
 
     private boolean isActive;
 
-    @OneToMany(mappedBy = "workSchedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workSchedule")
     private Set<BreakSchedule> breakSchedules = new HashSet<>();
 }

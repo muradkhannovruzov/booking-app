@@ -27,7 +27,7 @@ public class ServiceCatalogController {
     }
 
     @GetMapping("/{id}")
-    public BaseResponse<ServiceCatalogResDto> getOne(@PathVariable Long id) {
+    public BaseResponse<ServiceCatalogResDto> get(@PathVariable Long id) {
         return BaseResponse.success(serviceCatalogService.get(id));
     }
 
