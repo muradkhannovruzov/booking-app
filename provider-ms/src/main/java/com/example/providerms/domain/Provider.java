@@ -12,6 +12,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -38,6 +40,10 @@ public class Provider implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.PROVIDER;
+
+//    @OneToMany(mappedBy = "producer", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<WorkSchedule> workSchedules = new HashSet<>();
+
 
     private boolean accountNonExpired;
     private boolean accountNonLocked;

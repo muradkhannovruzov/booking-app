@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                 .anyRequest()
                 .authenticated()
                 .and()
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

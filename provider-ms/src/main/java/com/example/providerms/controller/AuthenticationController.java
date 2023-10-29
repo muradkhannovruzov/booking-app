@@ -8,10 +8,12 @@ import com.example.providerms.response.BaseResponse;
 import com.example.providerms.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -33,6 +35,23 @@ public class AuthenticationController {
     ){
         log.info("sign-in request:" + dto);
         return BaseResponse.success(authService.signIn(dto));
+    }
+
+    @GetMapping("/producer-details")
+    public String getProducerDetails(Principal principal) {
+        if (principal instanceof UsernamePasswordAuthenticationToken) {
+            UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) principal;
+            UserDetails userDetails = (UserDetails) token.getPrincipal();
+
+            return userDetails.toString();
+        }
+        return "Unknown producer";
+    }
+
+    @GetMapping("/producer-details-v2")
+    public String getProducerDetails(@AuthenticationPrincipal Long userId) {
+        System.out.println(userId);
+        return userId.toString();
     }
 
 }
