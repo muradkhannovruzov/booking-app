@@ -6,4 +6,5 @@ include 'user-management-ms' //8080
 include 'provider-ms' //8081
 include 'customer-ms' //8082
 include 'service-catalog-ms' //8083
+include 'reservation-ms' //8084
 include 'notifications-ms' //8085

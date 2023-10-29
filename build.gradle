@@ -10,7 +10,8 @@ def javaProjects = [
 		project(':provider-ms'),
 		project(':customer-ms'),
 		project(':service-catalog-ms'),
-		project(':notifications-ms')
+		project(':notifications-ms'),
+		project(':reservation-ms')
 ]
 
 def microservices = [
@@ -18,7 +19,8 @@ def microservices = [
 		project(':provider-ms'),
 		project(':customer-ms'),
 		project(':service-catalog-ms'),
-		project(':notifications-ms')
+		project(':notifications-ms'),
+		project(':reservation-ms')
 ]
 
 allprojects {
