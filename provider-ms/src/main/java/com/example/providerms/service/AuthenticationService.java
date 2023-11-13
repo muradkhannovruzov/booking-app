@@ -2,11 +2,14 @@ package com.example.providerms.service;
 
 import com.example.providerms.config.JwtService;
 import com.example.providerms.domain.Provider;
+import com.example.providerms.domain.Token;
+import com.example.providerms.domain.enums.TokenType;
 import com.example.providerms.dto.auth.SignInRequestDto;
 import com.example.providerms.dto.auth.SignInResponseDto;
 import com.example.providerms.dto.auth.SignUpRequestDto;
 import com.example.providerms.exception.BaseException;
 import com.example.providerms.repository.ProviderRepository;
+import com.example.providerms.repository.TokenRepository;
 import com.example.providerms.response.enums.ErrorResponseMessages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final ProviderRepository providerRepository;
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -32,34 +36,29 @@ public class AuthenticationService {
         checkForExistingCredentials(dto);
 
         var provider = createProviderEntityObject(dto);
-        providerRepository.save(provider);
+        var savedProvider = providerRepository.save(provider);
+        var jwtToken = jwtService.generateToken(savedProvider);
+        saveProviderToken(savedProvider, jwtToken);
 
-        var jwtToken = jwtService.generateToken(provider);
         return new SignInResponseDto(jwtToken);
     }
+
+
 
     public boolean isPresentUsername(String username){
         return providerRepository.findByUsernameAndEnabledIsTrue(username)
                 .isPresent();
     }
 
-    public boolean isPresentPhone(String phone){
-        return providerRepository.existsByPhoneAndEnabledIsTrue(phone);
-    }
-
-    public boolean isPresentEmail(String email){
-        return providerRepository.existsByEmailAndEnabledIsTrue(email);
-    }
-
     public SignInResponseDto signIn(SignInRequestDto dto) {
         log.info("AuthenticationService -> signIn | " + dto);
 
         var provider = providerRepository.findByUsernameAndEnabledIsTrue
-                        (dto.getUsername()).orElseThrow(() ->
-                        BaseException.notFound
-                                (Provider.class.getSimpleName(),
-                                        "username",
-                                        dto.getUsername()));
+                (dto.getUsername()).orElseThrow(() ->
+                BaseException.notFound
+                        (Provider.class.getSimpleName(),
+                                "username",
+                                dto.getUsername()));
 
         checkIfAccountActive(provider);
 
@@ -71,22 +70,21 @@ public class AuthenticationService {
         );
 
         var jwtToken = jwtService.generateToken(provider);
+        revokeAllProviderToken(provider);
+        saveProviderToken(provider, jwtToken);
 
         return new SignInResponseDto(jwtToken);
     }
 
-    public Provider getUserFromToken(String token) {
-
-        Long userId = jwtService.extractClaim
-                (token, claims -> claims.get("userId", Long.class));
-
-        return providerRepository.findById(userId)
-                .orElseThrow(
-                        () -> BaseException.notFound(
-                                Provider.class.getSimpleName(),
-                                "userId",
-                                userId.toString()));
+    public boolean isPresentPhone(String phone){
+        return providerRepository.existsByPhoneAndEnabledIsTrue(phone);
     }
+
+    public boolean isPresentEmail(String email){
+        return providerRepository.existsByEmailAndEnabledIsTrue(email);
+    }
+
+
 
     private Provider createProviderEntityObject(SignUpRequestDto signUpDto) {
         Provider provider = modelMapper.map(signUpDto, Provider.class);
@@ -117,6 +115,31 @@ public class AuthenticationService {
                 || !provider.isCredentialsNonExpired()) {
             throw BaseException.of(ErrorResponseMessages.USER_NOT_ACTIVE);
         }
+    }
+
+    private void revokeAllProviderToken(Provider provider){
+        var validProviderTokens = tokenRepository.findAllValidTokensByProvider(provider.getId());
+        if(validProviderTokens.isEmpty())
+            return;
+
+        validProviderTokens.forEach(t->{
+            t.setExpired(true);
+            t.setRevoked(true);
+        });
+
+        tokenRepository.saveAll(validProviderTokens);
+    }
+
+    private void saveProviderToken(Provider provider, String jwtToken) {
+        var token = Token.builder()
+                .provider(provider)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .revoked(false)
+                .expired(false)
+                .build();
+
+        tokenRepository.save(token);
     }
 
 }

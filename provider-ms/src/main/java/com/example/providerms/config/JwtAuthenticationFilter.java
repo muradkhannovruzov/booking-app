@@ -1,6 +1,7 @@
 package com.example.providerms.config;
 
 import com.example.providerms.domain.Provider;
+import com.example.providerms.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
 
     @Override
     protected void doFilterInternal(
@@ -43,7 +45,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             Provider provider = (Provider) userDetails;
-            if(jwtService.isTokenValid(jwt, userDetails)){
+            var isValidToken = tokenRepository.findByToken(jwt)
+                    .map(t-> !t.isRevoked() && !t.isExpired())
+                    .orElse(false);
+            if(jwtService.isTokenValid(jwt, userDetails) && isValidToken){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         provider.getId(),
                         null,
